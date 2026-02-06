@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For Padin</title>
+    <style>
+        body { background-color: #fff0f5; font-family: 'Segoe UI', sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; overflow: hidden; }
+        .card { background: white; padding: 2rem; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); text-align: center; max-width: 400px; width: 90%; }
+        .hidden { display: none; }
+        h1 { color: #d81b60; font-size: 1.5rem; }
+        .btn-container { margin-top: 20px; position: relative; height: 60px; }
+        button { padding: 12px 25px; border: none; border-radius: 25px; cursor: pointer; font-weight: bold; transition: 0.3s; font-size: 1rem; }
+        #open-btn, #yes-btn { background: #ff4081; color: white; }
+        #no-btn { background: #f5f5f5; color: #616161; position: absolute; left: 50%; transform: translateX(5px); }
+    </style>
+</head>
+<body>
+
+    <div id="intro-stage" class="card">
+        <h1>Hey bunny, you have a special message...</h1>
+        <button id="open-btn" onclick="nextStage()">Open Message</button>
+    </div>
+
+    <div id="valentine-stage" class="card hidden">
+        <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHIycXJ6Z3B6Z3B6Z3B6Z3B6Z3B6Z3B6Z3B6Z3B6Z3B6JmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCBmcm9tPXNlYXJjaCZjdD1n/c76IJLufpNwSULPk2m/giphy.gif" style="width:100%; border-radius:10px;">
+        <h1>Will you be my Valentine?</h1>
+        <div class="btn-container">
+            <button id="yes-btn" onclick="showSuccess()">Yes</button>
+            <button id="no-btn" onmouseover="moveButton()">No</button>
+        </div>
+    </div>
+
+    <div id="success-stage" class="card hidden">
+        <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHRycHBybnB6Z3B6Z3B6Z3B6Z3B6Z3B6Z3B6Z3B6Z3B6JmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCBmcm9tPXNlYXJjaCZjdD1n/lTQF0ODLLJHzaHkK8X/giphy.gif" style="width:100%; border-radius:10px;">
+        <h1>Yay! ❤️</h1>
+    </div>
+
+    <script>
+        function nextStage() {
+            document.getElementById('intro-stage').classList.add('hidden');
+            document.getElementById('valentine-stage').classList.remove('hidden');
+        }
+        function showSuccess() {
+            document.getElementById('valentine-stage').classList.add('hidden');
+            document.getElementById('success-stage').classList.remove('hidden');
+        }
+        function moveButton() {
+            const btn = document.getElementById('no-btn');
+            const x = Math.random() * (window.innerWidth - btn.offsetWidth - 50);
+            const y = Math.random() * (window.innerHeight - btn.offsetHeight - 50);
+            btn.style.left = x + 'px';
+            btn.style.top = y + 'px';
+        }
+    </script>
+</body>
+</html>
