@@ -6,187 +6,152 @@
     <title>For My Bunny</title>
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-    
     <style>
+        :root { --main-pink: #ff4081; --soft-pink: #ff80ab; }
         body {
-            background: linear-gradient(135deg, #ffe6fa 0%, #e3f2fd 100%);
+            background: #0f0c29; 
+            background: linear-gradient(to bottom, #24243e, #302b63, #0f0c29);
             font-family: 'Quicksand', sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            overflow: hidden;
+            display: flex; justify-content: center; align-items: center;
+            height: 100vh; margin: 0; overflow: hidden;
         }
 
-        /* --- THE BIG CARD --- */
+        /* Animated Floating Background */
+        .stars { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
+
         .card {
-            background: rgba(255, 255, 255, 0.95);
-            padding: 5rem; /* Massive padding */
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            padding: 5rem;
             border-radius: 40px;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.1);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.3);
             text-align: center;
-            max-width: 800px; /* MUCH WIDER */
+            max-width: 800px;
             width: 90%;
-            position: relative;
-            transition: transform 0.3s;
+            border: 1px solid rgba(255,255,255,0.2);
+            z-index: 10;
         }
 
         h1 {
-            color: #ff4081;
-            font-family: 'Pacifico', cursive;
-            font-size: 4rem; /* Huge text */
-            margin: 0 0 1.5rem 0;
-            line-height: 1.2;
-        }
-
-        p {
-            font-size: 1.5rem;
-            color: #666;
-            margin-bottom: 3rem;
-        }
-
-        /* --- EMOJI ART (Replaces Broken Images) --- */
-        .emoji-art {
-            font-size: 8rem;
-            margin-bottom: 2rem;
-            display: block;
-            animation: bounce 2s infinite;
-        }
-
-        /* --- BUTTONS --- */
-        .btn-container {
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-            margin-top: 2rem;
-            position: relative;
-            height: 80px; /* Space for moving button */
-        }
-
-        button {
-            padding: 20px 50px;
-            font-size: 1.5rem;
-            border: none;
-            border-radius: 50px;
-            cursor: pointer;
-            font-family: 'Quicksand', sans-serif;
-            font-weight: 700;
-            transition: transform 0.2s;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-        }
-
-        .primary-btn {
-            background: linear-gradient(45deg, #ff4081, #f50057);
             color: white;
-        }
-        .primary-btn:hover { transform: scale(1.05); }
-
-        #no-btn {
-            background: #e0e0e0;
-            color: #555;
-            position: absolute; /* Allows movement */
+            font-family: 'Pacifico', cursive;
+            font-size: 4.5rem;
+            margin: 0 0 1rem 0;
+            text-shadow: 0 0 20px var(--main-pink);
         }
 
-        /* --- ENVELOPE STYLES (For Intro) --- */
-        .envelope-icon {
-            font-size: 10rem;
-            color: #ff4081;
-            text-shadow: 0 10px 20px rgba(255,64,129,0.3);
-            cursor: pointer;
-            transition: transform 0.3s;
+        p { font-size: 1.6rem; color: #eee; margin-bottom: 3rem; }
+
+        /* CSS Heart Animation */
+        .heart-box { margin-bottom: 3rem; position: relative; height: 150px; }
+        .heart {
+            position: absolute; left: 50%; transform: translateX(-50%);
+            width: 100px; height: 90px;
+            background: var(--main-pink);
+            display: inline-block;
+            animation: beat 1.2s infinite;
+            filter: drop-shadow(0 0 15px var(--main-pink));
         }
-        .envelope-icon:hover { transform: scale(1.1) rotate(5deg); }
+        .heart:before, .heart:after {
+            content: ""; position: absolute; top: 0; width: 50px; height: 80px;
+            background: var(--main-pink); border-radius: 50px 50px 0 0;
+        }
+        .heart:before { left: 50px; transform: rotate(-45deg); transform-origin: 0 100%; }
+        .heart:after { left: 0; transform: rotate(45deg); transform-origin: 100% 100%; }
+
+        @keyframes beat {
+            0% { transform: translateX(-50%) scale(1); }
+            15% { transform: translateX(-50%) scale(1.25); }
+            30% { transform: translateX(-50%) scale(1); }
+            45% { transform: translateX(-50%) scale(1.15); }
+            60% { transform: translateX(-50%) scale(1); }
+        }
+
+        /* Buttons */
+        .btn-container { display: flex; justify-content: center; gap: 40px; margin-top: 2rem; position: relative; height: 100px; }
+        button {
+            padding: 22px 60px; font-size: 1.8rem; border: none; border-radius: 60px;
+            cursor: pointer; font-family: 'Quicksand', sans-serif; font-weight: 700;
+            transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .yes-btn { background: white; color: var(--main-pink); box-shadow: 0 0 30px rgba(255,255,255,0.4); }
+        .yes-btn:hover { transform: scale(1.1); box-shadow: 0 0 50px var(--main-pink); }
+
+        #no-btn { background: rgba(255,255,255,0.1); color: #aaa; border: 1px solid rgba(255,255,255,0.2); position: absolute; }
 
         .hidden { display: none !important; }
-
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-20px); }
-        }
     </style>
 </head>
 <body>
-    
-    <audio id="bg-music" loop>
-        <source src="https://cdn.pixabay.com/download/audio/2022/02/07/audio_1829e79720.mp3" type="audio/mpeg">
-    </audio>
+    <canvas class="stars" id="starCanvas"></canvas>
+    <audio id="bg-music" loop><source src="https://cdn.pixabay.com/download/audio/2022/02/07/audio_1829e79720.mp3" type="audio/mpeg"></audio>
 
     <div id="intro-stage" class="card">
-        <div class="envelope-icon" onclick="startExperience()">💌</div>
-        <h1>For My Bunny</h1>
-        <p>Tap the envelope to open your surprise...</p>
+        <div class="heart-box"><div class="heart"></div></div>
+        <h1>Hey Bunny</h1>
+        <p>I built this specifically for you. Tap to enter...</p>
+        <button class="yes-btn" onclick="start()">Open 💌</button>
     </div>
 
     <div id="valentine-stage" class="card hidden">
-        <span class="emoji-art">🐰❤️</span>
+        <div class="heart-box" style="font-size: 8rem;">🐰</div>
         <h1>Will you be my Valentine?</h1>
-        <p>There are millions of bunnies in the world, but you are my only one.</p>
-        
+        <p>"There are millions of bunnies in the world, but you are my only one."</p>
         <div class="btn-container">
-            <button class="primary-btn" onclick="showSuccess()">YES!</button>
-            <button id="no-btn" onmouseover="moveButton()" ontouchstart="moveButton()">NO</button>
+            <button class="yes-btn" onclick="success()">YES!</button>
+            <button id="no-btn" onmouseover="evade()">NO</button>
         </div>
     </div>
 
     <div id="success-stage" class="card hidden">
-        <span class="emoji-art">🎉👯‍♀️💖</span>
-        <h1>YAY!!!</h1>
-        <p>Bunny said YES!</p>
-        <p style="font-size: 1.2rem;">I'm the luckiest person alive.</p>
+        <div class="heart-box" style="font-size: 8rem;">💖</div>
+        <h1>I Knew It!</h1>
+        <p>I love you forever, Bunny. You're my everything.</p>
     </div>
 
     <script>
-        function startExperience() {
-            // Try to play music
-            const music = document.getElementById('bg-music');
-            music.volume = 0.6;
-            music.play().catch(e => console.log("Audio needs interaction"));
-
+        function start() {
+            document.getElementById('bg-music').play();
             document.getElementById('intro-stage').classList.add('hidden');
             document.getElementById('valentine-stage').classList.remove('hidden');
         }
 
-        function moveButton() {
+        function evade() {
             const btn = document.getElementById('no-btn');
-            // Move fixed relative to viewport so it can't hide in the corner
-            const x = Math.random() * (window.innerWidth - 150);
-            const y = Math.random() * (window.innerHeight - 150);
-            
+            const x = Math.random() * (window.innerWidth - 200);
+            const y = Math.random() * (window.innerHeight - 100);
             btn.style.position = 'fixed';
             btn.style.left = x + 'px';
             btn.style.top = y + 'px';
         }
 
-        function showSuccess() {
+        function success() {
             document.getElementById('valentine-stage').classList.add('hidden');
             document.getElementById('success-stage').classList.remove('hidden');
-            
-            // FIRE THE CONFETTI CANNON
-            const duration = 5000;
-            const end = Date.now() + duration;
-
+            const end = Date.now() + 10000;
             (function frame() {
-                confetti({
-                    particleCount: 5,
-                    angle: 60,
-                    spread: 55,
-                    origin: { x: 0 },
-                    colors: ['#ff4081', '#ff80ab', '#ffffff']
-                });
-                confetti({
-                    particleCount: 5,
-                    angle: 120,
-                    spread: 55,
-                    origin: { x: 1 },
-                    colors: ['#ff4081', '#ff80ab', '#ffffff']
-                });
-
-                if (Date.now() < end) {
-                    requestAnimationFrame(frame);
-                }
+                confetti({ particleCount: 3, angle: 60, spread: 55, origin: { x: 0 }, colors: ['#ff4081', '#ffffff'] });
+                confetti({ particleCount: 3, angle: 120, spread: 55, origin: { x: 1 }, colors: ['#ff4081', '#ffffff'] });
+                if (Date.now() < end) requestAnimationFrame(frame);
             }());
         }
+
+        // Background Sparkle Logic
+        const canvas = document.getElementById('starCanvas');
+        const ctx = canvas.getContext('2d');
+        let stars = [];
+        function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+        window.onresize = resize; resize();
+        for(let i=0; i<100; i++) stars.push({x:Math.random()*canvas.width, y:Math.random()*canvas.height, r:Math.random()*2, d:Math.random()*10});
+        function draw() {
+            ctx.clearRect(0,0,canvas.width, canvas.height);
+            ctx.fillStyle = "white"; ctx.beginPath();
+            for(let s of stars) { ctx.moveTo(s.x, s.y); ctx.arc(s.x, s.y, s.r, 0, Math.PI*2, true); }
+            ctx.fill(); update();
+        }
+        function update() { for(let s of stars) { s.y += Math.cos(s.d) + 1 + s.r/2; if(s.y > canvas.height) s.y = -5; } }
+        setInterval(draw, 33);
     </script>
 </body>
 </html>
