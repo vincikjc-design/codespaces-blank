@@ -2,127 +2,190 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="referrer" content="no-referrer">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>For Padin</title>
-    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <title>For My Bunny</title>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    
     <style>
-        body { 
-            background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
-            font-family: 'Poppins', sans-serif; 
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
-            height: 100vh; 
-            margin: 0; 
-            overflow: hidden; 
+        body {
+            background: linear-gradient(135deg, #ffe6fa 0%, #e3f2fd 100%);
+            font-family: 'Quicksand', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
         }
 
-        .card { 
-            background: rgba(255, 255, 255, 0.95); 
-            padding: 4rem;  /* BIGGER PADDING */
-            border-radius: 30px; 
-            box-shadow: 0 20px 60px rgba(0,0,0,0.15); 
-            text-align: center; 
-            max-width: 600px; /* BIGGER WIDTH */
-            width: 90%; 
-            border: 1px solid rgba(255,255,255,0.5);
+        /* --- THE BIG CARD --- */
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 5rem; /* Massive padding */
+            border-radius: 40px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.1);
+            text-align: center;
+            max-width: 800px; /* MUCH WIDER */
+            width: 90%;
+            position: relative;
+            transition: transform 0.3s;
         }
+
+        h1 {
+            color: #ff4081;
+            font-family: 'Pacifico', cursive;
+            font-size: 4rem; /* Huge text */
+            margin: 0 0 1.5rem 0;
+            line-height: 1.2;
+        }
+
+        p {
+            font-size: 1.5rem;
+            color: #666;
+            margin-bottom: 3rem;
+        }
+
+        /* --- EMOJI ART (Replaces Broken Images) --- */
+        .emoji-art {
+            font-size: 8rem;
+            margin-bottom: 2rem;
+            display: block;
+            animation: bounce 2s infinite;
+        }
+
+        /* --- BUTTONS --- */
+        .btn-container {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 2rem;
+            position: relative;
+            height: 80px; /* Space for moving button */
+        }
+
+        button {
+            padding: 20px 50px;
+            font-size: 1.5rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-family: 'Quicksand', sans-serif;
+            font-weight: 700;
+            transition: transform 0.2s;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .primary-btn {
+            background: linear-gradient(45deg, #ff4081, #f50057);
+            color: white;
+        }
+        .primary-btn:hover { transform: scale(1.05); }
+
+        #no-btn {
+            background: #e0e0e0;
+            color: #555;
+            position: absolute; /* Allows movement */
+        }
+
+        /* --- ENVELOPE STYLES (For Intro) --- */
+        .envelope-icon {
+            font-size: 10rem;
+            color: #ff4081;
+            text-shadow: 0 10px 20px rgba(255,64,129,0.3);
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        .envelope-icon:hover { transform: scale(1.1) rotate(5deg); }
 
         .hidden { display: none !important; }
-        
-        h1 { 
-            color: #d81b60; 
-            font-family: 'Pacifico', cursive; 
-            font-size: 2.5rem; /* BIGGER TEXT */
-            margin-bottom: 1.5rem;
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
         }
-
-        p { color: #555; font-size: 1.2rem; margin-bottom: 2rem; }
-
-        img { 
-            width: 100%; 
-            max-height: 350px; 
-            object-fit: contain; 
-            border-radius: 20px; 
-            margin-bottom: 2rem;
-        }
-
-        .btn-container { 
-            position: relative; 
-            height: 70px; 
-            display: flex; 
-            justify-content: center; 
-            gap: 20px;
-        }
-
-        button { 
-            padding: 15px 40px; /* BIGGER BUTTONS */
-            border: none; 
-            border-radius: 50px; 
-            cursor: pointer; 
-            font-weight: 600; 
-            font-size: 1.2rem; 
-            transition: transform 0.2s;
-        }
-
-        #open-btn, #yes-btn { background: #ff4081; color: white; box-shadow: 0 5px 15px rgba(255, 64, 129, 0.3); }
-        #no-btn { background: #f5f5f5; color: #616161; position: absolute; right: 20px; }
-
-        .rose { position: fixed; top: -10%; font-size: 2.5rem; animation: fall 4s linear forwards; z-index: 100; }
-        @keyframes fall { to { transform: translateY(110vh) rotate(360deg); } }
     </style>
 </head>
 <body>
-    <audio id="bg-music" loop><source src="https://cdn.pixabay.com/download/audio/2022/10/25/audio_24e0371666.mp3" type="audio/mpeg"></audio>
+    
+    <audio id="bg-music" loop>
+        <source src="https://cdn.pixabay.com/download/audio/2022/02/07/audio_1829e79720.mp3" type="audio/mpeg">
+    </audio>
 
     <div id="intro-stage" class="card">
-        <h1>Hey bunny...</h1>
-        <p>I have a special question for you.</p>
-        <button id="open-btn" onclick="startExperience()">Open Message 💌</button>
+        <div class="envelope-icon" onclick="startExperience()">💌</div>
+        <h1>For My Bunny</h1>
+        <p>Tap the envelope to open your surprise...</p>
     </div>
 
     <div id="valentine-stage" class="card hidden">
-        <img src="https://images.weserv.nl/?url=media1.tenor.com/m/Jca9x6VzTuoAAAAC/bubu-dudu-love.gif" alt="Cute Bears">
+        <span class="emoji-art">🐰❤️</span>
         <h1>Will you be my Valentine?</h1>
+        <p>There are millions of bunnies in the world, but you are my only one.</p>
+        
         <div class="btn-container">
-            <button id="yes-btn" onclick="showSuccess()">Yes</button>
-            <button id="no-btn" onmouseover="evadeCursor()" ontouchstart="evadeCursor()">No</button>
+            <button class="primary-btn" onclick="showSuccess()">YES!</button>
+            <button id="no-btn" onmouseover="moveButton()" ontouchstart="moveButton()">NO</button>
         </div>
     </div>
 
     <div id="success-stage" class="card hidden">
-        <img src="https://images.weserv.nl/?url=media1.tenor.com/m/Z6mG-J2oW9QAAAAC/baby-dancing.gif" alt="Dancing Baby">
-        <h1>Yay! ❤️</h1>
-        <p>You made me the happiest man alive!</p>
+        <span class="emoji-art">🎉👯‍♀️💖</span>
+        <h1>YAY!!!</h1>
+        <p>Bunny said YES!</p>
+        <p style="font-size: 1.2rem;">I'm the luckiest person alive.</p>
     </div>
 
     <script>
         function startExperience() {
-            document.getElementById('bg-music').play().catch(e => console.log("Audio requires interaction"));
+            // Try to play music
+            const music = document.getElementById('bg-music');
+            music.volume = 0.6;
+            music.play().catch(e => console.log("Audio needs interaction"));
+
             document.getElementById('intro-stage').classList.add('hidden');
             document.getElementById('valentine-stage').classList.remove('hidden');
         }
-        function evadeCursor() {
+
+        function moveButton() {
             const btn = document.getElementById('no-btn');
+            // Move fixed relative to viewport so it can't hide in the corner
+            const x = Math.random() * (window.innerWidth - 150);
+            const y = Math.random() * (window.innerHeight - 150);
+            
             btn.style.position = 'fixed';
-            const x = Math.random() * (window.innerWidth - 120);
-            const y = Math.random() * (window.innerHeight - 80);
             btn.style.left = x + 'px';
             btn.style.top = y + 'px';
         }
+
         function showSuccess() {
             document.getElementById('valentine-stage').classList.add('hidden');
             document.getElementById('success-stage').classList.remove('hidden');
-            // Rose Rain
-            setInterval(() => {
-                const rose = document.createElement('div');
-                rose.classList.add('rose');
-                rose.innerHTML = '🌹';
-                rose.style.left = Math.random() * 95 + 'vw';
-                document.body.appendChild(rose);
-                setTimeout(() => rose.remove(), 4000);
-            }, 200);
+            
+            // FIRE THE CONFETTI CANNON
+            const duration = 5000;
+            const end = Date.now() + duration;
+
+            (function frame() {
+                confetti({
+                    particleCount: 5,
+                    angle: 60,
+                    spread: 55,
+                    origin: { x: 0 },
+                    colors: ['#ff4081', '#ff80ab', '#ffffff']
+                });
+                confetti({
+                    particleCount: 5,
+                    angle: 120,
+                    spread: 55,
+                    origin: { x: 1 },
+                    colors: ['#ff4081', '#ff80ab', '#ffffff']
+                });
+
+                if (Date.now() < end) {
+                    requestAnimationFrame(frame);
+                }
+            }());
         }
     </script>
 </body>
